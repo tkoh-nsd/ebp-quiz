@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import config from "./config";
+import "./App.css"; // Import the CSS file
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [uid, setUid] = useState("");
+  const [prefilledLink, setPrefilledLink] = useState("");
+
+  useEffect(() => {
+    // Generate a random UID
+    const randomUid = Math.random().toString(36).substring(2, 15);
+    setUid(randomUid);
+
+    // Create the prefilled Google Form link
+    const { formId, entryId } = config;
+    const link = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&${entryId}=${randomUid}`;
+    setPrefilledLink(link);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+    <div className="app-container">
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <h1 className="title">Welcome to the Quiz!</h1>
+        <p className="subtitle">Your unique ID is:</p>
+        <div className="uid-container">
+          <p className="uid">{uid}</p>
+        </div>
+        <button
+          className="start-button"
+          onClick={() => window.open(prefilledLink, "_blank")}
+        >
+          Start Quiz
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
