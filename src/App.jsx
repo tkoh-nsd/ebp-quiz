@@ -7,9 +7,9 @@ const App = () => {
   const [prefilledLink, setPrefilledLink] = useState("");
 
   useEffect(() => {
-    // Generate a random UID
-    const randomUid = Math.random().toString(36).substring(2, 15);
-    setUid(randomUid);
+    // Generate a 5-digit random number
+    const randomUid = Math.floor(10000 + Math.random() * 90000); // Ensures 5 digits
+    setUid(randomUid.toString());
 
     // Create the prefilled Google Form link
     const { formId, entryId } = config;
